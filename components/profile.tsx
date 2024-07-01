@@ -10,13 +10,13 @@ import Animated, {
 import useProfile from "@/hooks/useProfile";
 import { cn } from "@/lib/utils";
 
-interface ProfileInterface {
+interface ProfileItemInterface {
   name: string;
   image: string;
   id: string;
 }
 
-const Profile: React.FC<ProfileInterface> = ({ name, image, id }) => {
+const ProfileItem: React.FC<ProfileItemInterface> = ({ name, image, id }) => {
   const { EditProfile } = useProfile();
   const router = useRouter();
   const config = {
@@ -76,4 +76,4 @@ const Profile: React.FC<ProfileInterface> = ({ name, image, id }) => {
   );
 };
 
-export default Profile;
+export default ProfileItem;

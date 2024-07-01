@@ -33,7 +33,7 @@ const SignInScreen = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      const user = await signIn(values);
+      await signIn(values);
     } catch (error: any) {
       if (error) Alert.alert(error.message);
     } finally {

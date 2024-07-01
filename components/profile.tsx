@@ -1,6 +1,5 @@
 import { Text, TouchableHighlight, View } from "react-native";
-import React, { useEffect } from "react";
-
+import React from "react";
 import images from "@/constants/images";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -18,7 +17,7 @@ interface ProfileInterface {
 }
 
 const Profile: React.FC<ProfileInterface> = ({ name, image, id }) => {
-  const { EditProfile, setEditProfile } = useProfile();
+  const { EditProfile } = useProfile();
   const router = useRouter();
   const config = {
     duration: 300,

@@ -7,14 +7,16 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+
 import React, { useEffect, useState } from "react";
-import { AntDesign, Fontisto } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import Profile from "@/components/profile";
 import { useRouter } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { ProfilesTypes } from "@/types";
 import { ActivityIndicator } from "react-native-paper";
 import useProfile from "@/hooks/useProfile";
+
 const Profiles = () => {
   const router = useRouter()
   const [profiles, setProfiles] = useState<ProfilesTypes[]>([]);
@@ -39,6 +41,7 @@ const Profiles = () => {
   const handleOutsidePress = () => {
     setEditProfile(false);
   };
+
   if (loading) {
     return (
       <View className="flex-[1] items-center justify-center bg-black">
@@ -53,6 +56,12 @@ const Profiles = () => {
         className="flex-col flex-1 items-center justify-center gap-16 py-8 bg-black"
         style={{
           width: "100%",
+          backgroundColor: "black",
+          flex: 1,
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 64
         }}
       >
         <Text className="text-2xl text-center text-white">Who's watching?</Text>

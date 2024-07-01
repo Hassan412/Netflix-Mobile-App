@@ -9,8 +9,7 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import useMoviesImages from "@/hooks/useMoviesImages";
-import _ from "lodash";
-import useMoviesById from "@/hooks/useMoviesById";
+import useMoviesById from "@/hooks/useMovies&SeriesById";
 
 const Billboard = () => {
   const [randomIndex, setRandomIndex] = useState(0);
@@ -48,7 +47,7 @@ const Billboard = () => {
         }}
       />
       <Text
-        className="absolute bottom-0 left-[1%] text-xl font-semibold text-white"
+        className="absolute bottom-[3%] left-[1%] text-xl font-semibold text-white"
         style={{
           zIndex: 100,
         }}

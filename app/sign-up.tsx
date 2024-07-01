@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { Button, TextInput } from "react-native-paper";
 import { zodResolver } from "@hookform/resolvers/zod";

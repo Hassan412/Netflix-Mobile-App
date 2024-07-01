@@ -1,6 +1,6 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import "../global.css";
+import "../global.css"
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useRef } from "react";
 import "react-native-reanimated";
@@ -12,7 +12,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const animation = useRef<LottieView>(null);
-  const [splashAnimationFinished,setSplashAnimationFinished] = React.useState(false)
+  const [splashAnimationFinished, setSplashAnimationFinished] =
+    React.useState(false);
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
@@ -28,10 +29,9 @@ export default function RootLayout() {
       <View className="flex-[1] items-center justify-center bg-black">
         <LottieView
           autoPlay
-        
-          onAnimationFinish={(isCancelled)=> {
+          onAnimationFinish={(isCancelled: any) => {
             if (!isCancelled) {
-              setSplashAnimationFinished(true)
+              setSplashAnimationFinished(true);
             }
           }}
           loop={false}
@@ -84,6 +84,7 @@ export default function RootLayout() {
           name="sign-up"
           options={{
             headerShown: false,
+            presentation: "card",
           }}
         />
         <Stack.Screen name="+not-found" />

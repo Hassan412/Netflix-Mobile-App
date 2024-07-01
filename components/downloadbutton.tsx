@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import { Text, TouchableHighlight, View } from "react-native";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Octicons } from "@expo/vector-icons";
@@ -27,5 +27,3 @@ const DownloadButton: React.FC<DownloadButtonInterface> = ({
 };
 
 export default DownloadButton;
-
-const styles = StyleSheet.create({});

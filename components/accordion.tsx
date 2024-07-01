@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Animated, {
-  useSharedValue,
   withTiming,
   useAnimatedStyle,
-  Easing,
 } from "react-native-reanimated";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 

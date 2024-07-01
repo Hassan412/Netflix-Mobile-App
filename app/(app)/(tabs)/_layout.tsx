@@ -1,15 +1,18 @@
 import images from "@/constants/images";
 import useProfile from "@/hooks/useProfile";
-import { Tabs, useLocalSearchParams, useNavigation } from "expo-router";
+import { Tabs, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { Alert, Image, Text, View } from "react-native";
+import { Alert, Image, Text, TouchableHighlight, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import { supabase } from "@/lib/supabase";
+import _ from "lodash";
+import React from "react";
+
 export default function TabLayout() {
-  const navigation = useNavigation();
+  const router = useRouter()
   const { Profile,setProfile } = useProfile();
   const { id } = useLocalSearchParams();
   useEffect(() => {
@@ -28,11 +31,8 @@ export default function TabLayout() {
     };
     fetchProfile();
   }, [id, setProfile]);
-  useEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
 
-  if (!Profile?.id) {
+  if (_.isEmpty(Profile)) {
     return (
       <View className="flex-1 bg-black justify-center items-center">
         <Text>
@@ -63,13 +63,7 @@ export default function TabLayout() {
         },
       }}
     >
-      <Tabs.Screen
-        name="[info]"
-        options={{
-          href: null,
-          headerShown: false,
-        }}
-      />
+     
       <Tabs.Screen
         name="index"
         options={{
@@ -107,7 +101,9 @@ export default function TabLayout() {
           headerRight: (props) => (
             <View className="mr-6 flex-row items-center gap-4">
               <MaterialIcons name="cast-connected" size={30} color="white" />
+              <TouchableHighlight onPress={()=> router.push("/(app)/profiles")}>
               <Image
+              
                 source={images[Profile?.profilePicture!]}
                 className="w-[40px] h-[40px] rounded-sm"
                 style={{
@@ -115,6 +111,7 @@ export default function TabLayout() {
                   height: 35,
                 }}
               />
+              </TouchableHighlight>
             </View>
           ),
         }}

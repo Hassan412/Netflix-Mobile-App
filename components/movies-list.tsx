@@ -1,35 +1,39 @@
-import React from "react";
+import React, { memo, useCallback, useState } from "react";
 import { Text, View, Dimensions, StyleSheet, FlatList } from "react-native";
 import { MoviesData } from "@/types";
 import MovieCard from "./movie-card";
 import _ from "lodash";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import useList from "@/hooks/useList";
 
 interface MoviesListInterface {
-  data: MoviesData[];
+  data?: MoviesData[];
   heading?: string;
   varient?: "Series" | "Movies";
-  isLoadingMore?: boolean;
-  setSize?: (size: number) => void;
-  size?: number;
+  genreId?: number;
 }
 
 const { width } = Dimensions.get("window");
 
 const MoviesList: React.FC<MoviesListInterface> = ({
-  data,
   heading,
   varient,
-  isLoadingMore,
-  setSize,
-  size,
+  data,
+  genreId,
 }) => {
-  const handleLoadMore = () => {
-    if (!isLoadingMore && setSize && size) {
-      setSize(size + 1);
-    }
-  };
-  if (_.isEmpty(data)) {
+  const [loader, setLoader] = useState<boolean>(false);
+  const {
+    data: movies,
+    setSize,
+    size,
+    isLoadingMore,
+  } = useList(genreId, varient === "Series");
+
+  const handleLoadMore = useCallback(() => {
+    setSize(size + 1);
+  }, [setSize, size]);
+
+  if (_.isEmpty(data || movies)) {
     return null;
   }
 
@@ -41,36 +45,40 @@ const MoviesList: React.FC<MoviesListInterface> = ({
       }}
     >
       {heading && (
-        <Text className="text-xl ml-1 mt-8 font-semibold text-white">
+        <Text className="text-xl mb-4 mt-8 font-semibold text-white">
           {heading}
         </Text>
       )}
-      <View className="flex-row gap-8 w-full justify-center items-center">
+      <View className="flex-row w-full justify-center items-center">
         <FlatList
-          data={data}
+          data={data || movies}
           renderItem={({ item, index }) => (
             <MovieCard
               data={item}
               varient={varient}
-              className={`w-[130px] h-[200px]`}
+              className={`w-[110px] h-[170px]`}
               key={index}
             />
           )}
           keyExtractor={(item) => item.id.toString()}
+          removeClippedSubviews
           horizontal
           showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          onEndReached={handleLoadMore}
-          snapToInterval={width / 3}
+          ListFooterComponent={
+            isLoadingMore ? (
+              <ActivityIndicator
+                animating={true}
+                style={{
+                  marginHorizontal: 30,
+                }}
+                color={MD2Colors.red500}
+              />
+            ) : null
+          }
           decelerationRate="fast"
           onEndReachedThreshold={0.5}
           contentContainerStyle={styles.carousel}
         />
-        {isLoadingMore ? (
-          <ActivityIndicator animating={true} style={{
-            marginHorizontal: 30
-          }} color={MD2Colors.red500} />
-        ) : null}
       </View>
     </View>
   );
@@ -93,18 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MoviesList;
-{
-  /* <PagerView  style={styles.container} initialPage={0}>
-        <View style={styles.page} key="1">
-          <Text>First page</Text>
-          <Text>Swipe ➡️</Text>
-        </View>
-        <View style={styles.page} key="2">
-          <Text>Second page</Text>
-        </View>
-        <View style={styles.page} key="3">
-          <Text>Third page</Text>
-        </View>
-      </PagerView> */
-}
+export default memo(MoviesList);

@@ -7,11 +7,12 @@ import useSession from "@/hooks/useSession";
 import { Image } from "react-native";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import useProfile from "@/hooks/useProfile";
+import React from "react";
 
 export default function AuthLayout() {
   const { session } = useSession();
   const navigation = useNavigation();
-  const {setEditProfile, EditProfile}= useProfile()
+  const { setEditProfile, EditProfile } = useProfile();
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
@@ -29,6 +30,7 @@ export default function AuthLayout() {
           headerStyle: {
             backgroundColor: "black",
           },
+          headerTintColor: "white",
           headerTitle: (props) => (
             <Image
               source={require("@/assets/images/Netflix.png")}
@@ -40,14 +42,26 @@ export default function AuthLayout() {
           ),
           headerTitleAlign: "center",
           headerRight: (props) => (
-            <AntDesign name="edit" onPress={()=> setEditProfile(!EditProfile)} size={24} color="white" className="mr-4" />
+            <AntDesign
+              name="edit"
+              onPress={() => setEditProfile(!EditProfile)}
+              size={24}
+              color="white"
+              className="mr-4"
+            />
           ),
-          
         }}
         name="profiles"
       />
-
-      <Stack.Screen name="index" />
+      <Stack.Screen
+        name="[info]"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="(tabs)" options={{
+        headerShown:false
+      }}/>
       <Stack.Screen
         name="add-profile"
         options={{
@@ -56,15 +70,20 @@ export default function AuthLayout() {
           headerStyle: {
             backgroundColor: "black",
           },
+          presentation: "card",
         }}
       />
-      <Stack.Screen name="edit-profile" options={{
+      <Stack.Screen
+        name="edit-profile"
+        options={{
           headerTitle: "Edit Profile",
           headerTintColor: "white",
           headerStyle: {
             backgroundColor: "black",
           },
-        }}/>
+          presentation: "card",
+        }}
+      />
     </Stack>
   );
 }

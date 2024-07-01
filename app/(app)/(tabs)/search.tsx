@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import React from "react";
 import SearchBar from "@/components/search-bar";
 import useSearchData from "@/hooks/useSearchData";
@@ -34,7 +34,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <SafeAreaView className="bg-black flex-1 pt-16 px-4">
+    <SafeAreaView className="bg-black flex-1 pt-16">
       <SearchBar Query={searchQuery} setQuery={setSearchQuery} />
       <ScrollView>
         <View className="flex-row gap-2 my-8 justify-center items-center flex-wrap">
@@ -47,4 +47,3 @@ const SearchScreen = () => {
 
 export default SearchScreen;
 
-const styles = StyleSheet.create({});

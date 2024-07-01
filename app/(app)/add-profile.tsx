@@ -2,7 +2,6 @@ import {
   Alert,
   Image,
   ImageSourcePropType,
-  SafeAreaView,
   Text,
   TouchableHighlight,
   View,
@@ -75,7 +74,7 @@ const AddProfile = () => {
   }, [navigation, image, form, onSubmit, loading]);
 
   return (
-    <SafeAreaView className="flex-col py-8 items-center bg-black gap-8 flex-1">
+    <View className="flex-col py-8 items-center bg-black gap-8 flex-1">
       <Portal>
         <Modal
           visible={visible}
@@ -156,7 +155,7 @@ const AddProfile = () => {
           </>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

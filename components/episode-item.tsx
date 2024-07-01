@@ -1,69 +1,71 @@
-import { AntDesign } from '@expo/vector-icons';
-
-import { Image } from 'expo-image';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-
-// {
-//     id: 'episode1',
-//     title: '1. Pilot Part 1 & 2',
-//     poster: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/netflix/ep0.jpg',
-//     duration: '1h 21m',
-//     plot: 'When Harvey\'s promotion requires him to recruit and hire a graduate of Harvard Law, he chooses Mike Ross. But Mike doesn\'t actualy have a law degree',
-//     video: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-// }
+import { Episode } from "@/types";
+import { Image } from "expo-image";
+import _ from "lodash";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface EpisodeItemProps {
-    episode: Episode;
-    onPress: (eppisode: Episode) => {}
+  episode: Episode;
+  onPress: () => void;
 }
 
 const EpisodeItem = (props: EpisodeItemProps) => {
-    const { episode, onPress } = props;
+  const { episode, onPress } = props;
+  if (_.isEmpty(episode)) {
+    return null;
+  }
+  return (
+    <Pressable style={{ margin: 10 }} onPress={onPress}>
+      <View style={styles.row}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `https://image.tmdb.org/t/p/original${episode?.still_path}`,
+          }}
+          contentFit="cover"
+        />
 
-    return (
-        <Pressable style={{ margin: 10 }} onPress={() => onPress(episode)}>
-            <View style={styles.row}>
-                <Image style={styles.image} source={{ uri: episode.poster }} />
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>
+            {episode.episode_number}. {episode?.name}
+          </Text>
+          <Text style={styles.duration}>{episode?.runtime}m</Text>
+        </View>
 
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{episode.title}</Text>
-                    <Text style={styles.duration}>{episode.duration}</Text>
-                </View>
+        {/* <AntDesign name="download" size={24} className="mr-8" color={"white"} /> */}
+      </View>
 
-                <AntDesign name="download" size={24} color={'white'} />
-            </View>
-
-            <Text style={styles.plot}>{episode.plot}</Text>
-        </Pressable>
-    )
+      <Text className="font-light text-white text-sm">{episode.overview}</Text>
+    </Pressable>
+  );
 };
 const styles = StyleSheet.create({
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: 5,
-    },
-    image: {
-        height: 75,
-        aspectRatio: 16/9,
-        resizeMode: 'cover',
-        borderRadius: 3,
-    },
-    titleContainer: {
-        flex: 1,
-        padding: 5,
-        justifyContent: 'center',
-    },
-    title: {
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 5,
+    flexWrap: "wrap",
+  },
+  image: {
+    height: 85,
+    aspectRatio: 16 / 9,
+    resizeMode: "cover",
+    borderRadius: 3,
+    marginRight: 10,
+  },
+  titleContainer: {
+    flex: 1,
+    padding: 5,
+    justifyContent: "center",
 
-    },
-    duration: {
-        color: 'darkgrey',
-        fontSize: 10,
-    },
-    plot: {
-        color: 'darkgrey'
-    }
-})
+    minWidth: 150,
+  },
+  title: {
+    color: "white",
+  },
+  duration: {
+    color: "darkgrey",
+    fontSize: 10,
+  },
+});
 export default EpisodeItem;

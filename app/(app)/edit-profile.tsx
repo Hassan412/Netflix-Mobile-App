@@ -2,7 +2,6 @@ import {
   Alert,
   Image,
   ImageSourcePropType,
-  SafeAreaView,
   Text,
   TouchableHighlight,
   TouchableOpacity,
@@ -91,7 +90,7 @@ const EditProfileScreen = () => {
   }, [navigation, image, form, onSubmit, loading]);
 
   return (
-    <SafeAreaView className="flex-col py-8 items-center bg-black gap-8 flex-1">
+    <View className="flex-col py-8 items-center bg-black gap-8 flex-1">
       <Portal>
         <Modal
           visible={visible}
@@ -178,7 +177,7 @@ const EditProfileScreen = () => {
           <Text className="text-white text-lg font-medium">Delete Profile</Text>
         </View>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

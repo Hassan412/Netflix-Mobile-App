@@ -1,11 +1,9 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, Text} from "react-native";
 import React from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Animated, {
-  useSharedValue,
   withTiming,
   useAnimatedStyle,
-  Easing,
 } from "react-native-reanimated";
 import Accordion from "./accordion";
 interface DrawerInterface {
@@ -14,7 +12,6 @@ interface DrawerInterface {
 }
 
 const Drawer: React.FC<DrawerInterface> = ({ isOpen, setIsOpen }) => {
-  const randomWidth = useSharedValue(10);
 
   const config = {
     duration: 300,
@@ -55,5 +52,3 @@ const Drawer: React.FC<DrawerInterface> = ({ isOpen, setIsOpen }) => {
 };
 
 export default Drawer;
-
-const styles = StyleSheet.create({});

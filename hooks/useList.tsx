@@ -3,7 +3,7 @@ import fetcher from "@/lib/fetcher";
 import { MoviesData } from "@/types";
 import _ from "lodash";
 
-const useMoviesList = (Genre?: number) => {
+const useList = (Genre?: number, Series?: boolean) => {
   const getKey = (
     pageIndex: number,
     previousPageData: {
@@ -11,12 +11,18 @@ const useMoviesList = (Genre?: number) => {
     }
   ) => {
     if (previousPageData && !previousPageData.results.length) return null;
-    return `https://api.themoviedb.org/3/discover/movie?api_key=${
-      process.env.EXPO_PUBLIC_TMDB_API_KEY
-    }&with_genres=${Genre}&page=${pageIndex + 1}`;
+    if (Series) {
+      return `https://api.themoviedb.org/3/discover/tv?api_key=${
+        process.env.EXPO_PUBLIC_TMDB_API_KEY
+      }&query=netflix&with_genres=${Genre}&page=${pageIndex + 1}`;
+    } else {
+      return `https://api.themoviedb.org/3/discover/movie?api_key=${
+        process.env.EXPO_PUBLIC_TMDB_API_KEY
+      }&with_genres=${Genre}&page=${pageIndex + 1}`;
+    }
   };
 
-  const { data, error, size, setSize } = useSWRInfinite<{
+  const { data, error, size, setSize, isLoading } = useSWRInfinite<{
     results: MoviesData[];
   }>(getKey, fetcher, {
     revalidateOnFocus: false,
@@ -26,7 +32,6 @@ const useMoviesList = (Genre?: number) => {
   const movies: MoviesData[] = data
     ? _.uniqBy([].concat(...data.map((page: any) => page.results)), "id")
     : [];
-  const isLoading = !data && !error;
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
@@ -40,4 +45,4 @@ const useMoviesList = (Genre?: number) => {
   };
 };
 
-export default useMoviesList;
+export default useList;

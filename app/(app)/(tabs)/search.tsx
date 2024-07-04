@@ -29,15 +29,27 @@ const SearchScreen = () => {
     }
     const moviesToRender = _.isEmpty(searchQuery) ? Trending : SearchData;
     return moviesToRender?.map((data, index) => (
-      <MovieCard key={index} data={data} className="h-[170px] w-[31%]" />
+      <MovieCard key={index} data={data} width={"31%"}/>
     ));
   };
 
   return (
-    <SafeAreaView className="bg-black flex-1 pt-16">
+    <SafeAreaView style={{
+      paddingTop: 64,
+      flex: 1,
+      backgroundColor: "black"
+    }}>
       <SearchBar Query={searchQuery} setQuery={setSearchQuery} />
       <ScrollView>
-        <View className="flex-row gap-2 my-8 justify-center items-center flex-wrap">
+        <View style={{
+            flexDirection: 'row',
+            marginVertical: 32,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 8,
+
+        }}>
           {renderMovies()}
         </View>
       </ScrollView>

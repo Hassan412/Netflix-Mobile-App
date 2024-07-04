@@ -22,7 +22,7 @@ const useList = (Genre?: number, Series?: boolean) => {
     }
   };
 
-  const { data, error, size, setSize, isLoading } = useSWRInfinite<{
+  const { data, error, size, setSize, isLoading, isValidating } = useSWRInfinite<{
     results: MoviesData[];
   }>(getKey, fetcher, {
     revalidateOnFocus: false,
@@ -33,7 +33,7 @@ const useList = (Genre?: number, Series?: boolean) => {
     ? _.uniqBy([].concat(...data.map((page: any) => page.results)), "id")
     : [];
   const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+    isLoading || isValidating;
 
   return {
     data: movies,

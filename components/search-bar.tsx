@@ -9,7 +9,7 @@ interface SearchBarInterface {
 
 const SearchBar: React.FC<SearchBarInterface> = ({ Query, setQuery }) => {
   return (
-    <View className="flex-row bg-neutral-800 gap-4 px-4 py-2 rounded-md">
+    <View className="flex-row bg-neutral-800 gap-4 px-4 py-2 rounded-md mx-2">
       <AntDesign name="search1" size={24} color={"gray"} />
       <TextInput
         editable

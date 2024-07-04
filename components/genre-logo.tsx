@@ -17,7 +17,7 @@ const GenreLogo: React.FC<GenreLogoProps> = ({ data }) => {
         }}
       />
       <Text
-        className="text-white font-medium text-lg uppercase"
+        className="text-white font-medium uppercase"
         style={{
           letterSpacing: 2,
         }}

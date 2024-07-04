@@ -54,8 +54,8 @@ const Home = () => {
               top: 0,
               bottom: 0,
               zIndex: 100,
+              opacity: 0.8
             }}
-            className="opacity-80"
           />
           <Image
             source={require("@/assets/images/Rectangle.png")}
@@ -149,6 +149,10 @@ const Home = () => {
         style={{
           backgroundColor: "red",
           paddingVertical: 10,
+          position: "absolute",
+          right: 20,
+          left: 20,
+          bottom: 32
         }}
       >
         Get Started

@@ -3,15 +3,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { supabase } from "@/lib/supabase";
 import useProfile from "@/hooks/useProfile";
-import _, { without } from "lodash";
+import _ from "lodash";
 import Feather from "@expo/vector-icons/Feather";
 import { cn } from "@/lib/utils";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
+
 interface FavoriteButtonInterface {
   movieId: number;
   iconSize?: number;
   labelClassName?: string;
   ClassName?: string;
+  series: boolean;
 }
 
 const FavoriteButton: React.FC<FavoriteButtonInterface> = ({
@@ -19,6 +21,7 @@ const FavoriteButton: React.FC<FavoriteButtonInterface> = ({
   iconSize,
   labelClassName,
   ClassName,
+  series,
 }) => {
   const { Profile, favoriteIds, setFavoriteIds } = useProfile();
   const [isLoading, setIsLoading] = useState(false);
@@ -43,17 +46,16 @@ const FavoriteButton: React.FC<FavoriteButtonInterface> = ({
       isFavorite();
     }
   }, [Profile?.id, movieId, setFavoriteIds]);
-
   const toggleFavorite = useCallback(async () => {
     setIsLoading(true);
     try {
       let updatedFavoriteIds;
-      if (favoriteIds?.includes(movieId)) {
-        updatedFavoriteIds = without(favoriteIds, movieId);
+      if (_.find(favoriteIds, { movieId, series })) {
+        updatedFavoriteIds = _.reject(favoriteIds, { movieId, series });
       } else {
         updatedFavoriteIds = _.isEmpty(favoriteIds)
-          ? [movieId]
-          : [...favoriteIds, movieId];
+          ? [{ movieId, series }]
+          : [...favoriteIds, { movieId, series }];
       }
 
       const { error } = await supabase
@@ -72,14 +74,18 @@ const FavoriteButton: React.FC<FavoriteButtonInterface> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [Profile?.id, favoriteIds, movieId, setFavoriteIds]);
+  }, [Profile?.id, favoriteIds, movieId, setFavoriteIds, series]);
 
   return (
     <Pressable onPress={toggleFavorite}>
       <View className={cn("flex-col items-center justify-center", ClassName)}>
         {isLoading ? (
-          <ActivityIndicator animating={true} size={iconSize ? iconSize : 24} color={MD2Colors.red500} />
-        ) : favoriteIds?.includes(movieId) ? (
+          <ActivityIndicator
+            animating={true}
+            size={iconSize ? iconSize : 24}
+            color={MD2Colors.red500}
+          />
+        ) : _.find(favoriteIds, { movieId, series }) ? (
           <Feather name="check" size={iconSize ? iconSize : 24} color="white" />
         ) : (
           <AntDesign

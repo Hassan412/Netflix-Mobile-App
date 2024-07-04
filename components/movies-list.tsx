@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback } from "react";
 import { Text, View, Dimensions, StyleSheet, FlatList } from "react-native";
 import { MoviesData } from "@/types";
 import MovieCard from "./movie-card";
@@ -21,7 +21,6 @@ const MoviesList: React.FC<MoviesListInterface> = ({
   data,
   genreId,
 }) => {
-  const [loader, setLoader] = useState<boolean>(false);
   const {
     data: movies,
     setSize,
@@ -56,7 +55,8 @@ const MoviesList: React.FC<MoviesListInterface> = ({
             <MovieCard
               data={item}
               varient={varient}
-              className={`w-[110px] h-[170px]`}
+              className={`h-[170px]`}
+              width={115}
               key={index}
             />
           )}
@@ -76,6 +76,7 @@ const MoviesList: React.FC<MoviesListInterface> = ({
             ) : null
           }
           decelerationRate="fast"
+          onEndReached={data ? null : handleLoadMore}
           onEndReachedThreshold={0.5}
           contentContainerStyle={styles.carousel}
         />

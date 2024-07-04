@@ -64,6 +64,7 @@ const HomeScreen = () => {
       <FlatList
         data={displayedGenres}
         initialNumToRender={0}
+        onStartReachedThreshold={0.5}
         maxToRenderPerBatch={1}
         ListHeaderComponent={
           <View>

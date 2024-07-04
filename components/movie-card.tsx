@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, DimensionValue } from "react-native";
 import React, { memo, useCallback, useState } from "react";
 import { MoviesData } from "@/types";
 import { Image } from "expo-image";
@@ -9,12 +9,14 @@ interface MovieCardInterface {
   data: MoviesData;
   className?: string;
   varient?: "Series" | "Movies";
+  width?: DimensionValue;
 }
 
 const MovieCard: React.FC<MovieCardInterface> = ({
   data,
   className,
   varient,
+  width
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +27,10 @@ const MovieCard: React.FC<MovieCardInterface> = ({
     );
   }, [data.id, router, varient, data.name]);
   return (
-    <View className={cn("rounded-md relative bg-neutral-900", className)}>
+    <View style={{
+      width: width,
+      height: 170
+    }} className={cn("rounded-md relative bg-neutral-900", className)}>
       <Pressable onPress={onPress}>
         <View style={{ height: "100%", width: "100%" }}>
           {isLoading && (

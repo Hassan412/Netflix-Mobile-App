@@ -1,6 +1,7 @@
 import { Episode } from "@/types";
 import { Image } from "expo-image";
 import _ from "lodash";
+import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface EpisodeItemProps {
@@ -21,7 +22,6 @@ const EpisodeItem = (props: EpisodeItemProps) => {
           source={{
             uri: `https://image.tmdb.org/t/p/original${episode?.still_path}`,
           }}
-          contentFit="cover"
         />
 
         <View style={styles.titleContainer}>
@@ -34,7 +34,7 @@ const EpisodeItem = (props: EpisodeItemProps) => {
         {/* <AntDesign name="download" size={24} className="mr-8" color={"white"} /> */}
       </View>
 
-      <Text className="font-light text-white text-sm">{episode.overview}</Text>
+      <Text style={styles.overview}>{episode.overview}</Text>
     </Pressable>
   );
 };
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     justifyContent: "center",
-
     minWidth: 150,
   },
   title: {
@@ -66,6 +65,13 @@ const styles = StyleSheet.create({
   duration: {
     color: "darkgrey",
     fontSize: 10,
+    marginTop: 5
+  },
+  overview: {
+    fontWeight: "300",
+    color: "white",
+    fontSize: 12,
+    lineHeight: 20,
   },
 });
 export default EpisodeItem;

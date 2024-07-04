@@ -1,11 +1,14 @@
 import fetcher from "@/lib/fetcher";
 import useSWR from "swr";
+import { favoriteIdsInterface } from "./useProfile";
 
-const useFavorites = (movieIds: number[]) => {
+const useFavorites = (movieIds: favoriteIdsInterface[]) => {
   const fetchMovies = async () => {
     const requests = movieIds.map((id) =>
       fetcher(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.EXPO_PUBLIC_TMDB_API_KEY}`
+        id.series
+          ? `https://api.themoviedb.org/3/tv/${id.movieId}?api_key=${process.env.EXPO_PUBLIC_TMDB_API_KEY}`
+          : `https://api.themoviedb.org/3/movie/${id.movieId}?api_key=${process.env.EXPO_PUBLIC_TMDB_API_KEY}`
       )
     );
     return Promise.all(requests);

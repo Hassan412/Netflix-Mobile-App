@@ -24,7 +24,7 @@ const Profiles = () => {
   const [profiles, setProfiles] = useState<ProfilesTypes[]>([]);
   const [loading, setLoading] = useState(false);
   const { setEditProfile } = useProfile();
-  const {session} = useSession()
+  const { session } = useSession();
   useEffect(() => {
     const fetchProfiles = async () => {
       setLoading(true);
@@ -44,14 +44,19 @@ const Profiles = () => {
     };
     fetchProfiles();
   }, [session?.user.id]);
-  
+
   const handleOutsidePress = () => {
     setEditProfile(false);
   };
 
   if (loading) {
     return (
-      <View className="flex-[1] items-center justify-center bg-black">
+      <View
+        className="items-center justify-center bg-black"
+        style={{
+          flex: 1,
+        }}
+      >
         <ActivityIndicator animating={true} size={"large"} color={"red"} />
       </View>
     );
@@ -60,7 +65,6 @@ const Profiles = () => {
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
       <SafeAreaView
-        className="flex-col flex-1 items-center justify-center gap-16 py-8 bg-black"
         style={{
           width: "100%",
           backgroundColor: "black",
@@ -69,15 +73,30 @@ const Profiles = () => {
           alignItems: "center",
           justifyContent: "center",
           gap: 64,
+          paddingTop: 100,
+          paddingBottom: 32,
         }}
       >
-        <Text className="text-2xl text-center text-white">Who's watching?</Text>
+        <Text
+          className="text-2xl text-center text-white"
+          style={{
+            fontSize: 24,
+            color: "white",
+          }}
+        >
+          Who's watching?
+        </Text>
         <ScrollView>
           <View
             style={{
-              flex: 2,
+              flex: 1,
+              flexDirection: "row",
+              width: 300,
+              gap: 24,
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-            className="gap-6 flex-row flex-wrap items-center justify-center w-[300px]"
           >
             {profiles.map((profile, index) => (
               <ProfileItem
@@ -90,7 +109,18 @@ const Profiles = () => {
 
             <View className="flex-col justify-center items-center gap-2">
               <TouchableHighlight onPress={() => router.push("/add-profile")}>
-                <View className="p-6 rounded-md border justify-center items-center w-[110px] h-[110px] border-white">
+                <View
+                  style={{
+                    padding: 24,
+                    borderRadius: 6,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: 110,
+                    height: 110,
+                    borderColor: "white",
+                    borderWidth: 1,
+                  }}
+                >
                   <AntDesign name="plus" size={40} color="white" />
                 </View>
               </TouchableHighlight>
@@ -98,11 +128,16 @@ const Profiles = () => {
             </View>
           </View>
         </ScrollView>
-        <Button textColor="white" onPress={()=> signOut()} style={{
-      backgroundColor: "#333"
-      }}>Sign out</Button>
+        <Button
+          textColor="white"
+          onPress={() => signOut()}
+          style={{
+            backgroundColor: "#333",
+          }}
+        >
+          Sign out
+        </Button>
       </SafeAreaView>
-
     </TouchableWithoutFeedback>
   );
 };

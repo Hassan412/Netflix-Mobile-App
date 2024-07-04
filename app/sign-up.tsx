@@ -60,9 +60,17 @@ const SignUp = () => {
     }
   };
   return (
-    <View className="p-8 flex-1 bg-white">
-      <View className="flex-col gap-6">
-        <Text className="text-3xl font-medium">
+    <View style={{
+      padding: 32,
+      flex: 1,
+      backgroundColor: "white"
+    }}>
+      <View style={{
+        flexDirection: "column",
+        gap: 24,
+        marginTop: 64
+      }}>
+        <Text className="text-3xl font-medium" >
           Unlimited films, TV programmes & more
         </Text>
         <Text className="text-xl text-neutral-800">

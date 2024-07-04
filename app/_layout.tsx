@@ -26,7 +26,9 @@ export default function RootLayout() {
 
   if (!loaded || !splashAnimationFinished) {
     return (
-      <View className="flex-[1] items-center justify-center bg-black">
+      <View className="items-center justify-center bg-black" style={{
+        flex: 1
+      }}>
         <LottieView
           autoPlay
           onAnimationFinish={(isCancelled: any) => {

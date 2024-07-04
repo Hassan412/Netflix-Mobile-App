@@ -78,6 +78,7 @@ const MoviesList: React.FC<MoviesListInterface> = ({
           decelerationRate="fast"
           onEndReached={data ? null : handleLoadMore}
           onEndReachedThreshold={0.5}
+          onEndReached={handleLoadMore}
           contentContainerStyle={styles.carousel}
         />
       </View>

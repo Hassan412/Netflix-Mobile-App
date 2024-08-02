@@ -66,9 +66,8 @@ const ProfileItem: React.FC<ProfileItemInterface> = ({ name, image, id }) => {
         )}
 
         <Animated.Image
-          source={images[image]}
+          source={images[image] || { uri: image }}
           style={style}
-          className={"rounded-md"}
         />
         <Text className="text-center text-white">{name}</Text>
       </View>

@@ -103,7 +103,14 @@ const EditProfileScreen = () => {
             borderColor: "white",
           }}
         >
-          <View className="flex-row justify-center rounded-sm flex-wrap items-center gap-4">
+          <View style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            borderRadius: 2,
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 16
+          }}>
             {Object.entries(images).map(([key, image], index) => (
               <TouchableHighlight key={index} onPress={() => setImage(key)}>
                 <Image

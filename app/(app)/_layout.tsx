@@ -1,12 +1,12 @@
 import "react-native-url-polyfill/auto";
 import { useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Redirect, Stack, useNavigation } from "expo-router";
-
+import { Redirect, useNavigation } from "expo-router";
 import useSession from "@/hooks/useSession";
 import { Image } from "react-native";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import useProfile from "@/hooks/useProfile";
+import { JsStack } from "@/layouts/js-stack";
 import React from "react";
 
 export default function AuthLayout() {
@@ -24,8 +24,8 @@ export default function AuthLayout() {
     return <ActivityIndicator animating={true} color={MD2Colors.red500} />;
   }
   return (
-    <Stack>
-      <Stack.Screen
+    <JsStack>
+      <JsStack.Screen
         options={{
           headerStyle: {
             backgroundColor: "black",
@@ -53,16 +53,27 @@ export default function AuthLayout() {
         }}
         name="profiles"
       />
-      <Stack.Screen
+      <JsStack.Screen
         name="[info]"
         options={{
           headerShown: false,
+          presentation: "modal",
+          gestureEnabled:true,
         }}
       />
-      <Stack.Screen name="(tabs)" options={{
+      <JsStack.Screen name="(tabs)" options={{
         headerShown:false
       }}/>
-      <Stack.Screen
+      <JsStack.Screen name="watch" options={{
+          // headerStyle: {
+          //   backgroundColor: "black",
+          // },
+          // headerTitle: "Watch",
+          // headerTintColor: "white",
+          headerShown:false,
+          presentation: "transparentModal"
+      }}/>
+      <JsStack.Screen
         name="add-profile"
         options={{
           headerTitle: "Add Profile",
@@ -73,7 +84,7 @@ export default function AuthLayout() {
           presentation: "card",
         }}
       />
-      <Stack.Screen
+      <JsStack.Screen
         name="edit-profile"
         options={{
           headerTitle: "Edit Profile",
@@ -84,6 +95,6 @@ export default function AuthLayout() {
           presentation: "card",
         }}
       />
-    </Stack>
+    </JsStack>
   );
 }

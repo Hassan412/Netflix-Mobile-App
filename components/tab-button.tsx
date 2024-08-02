@@ -35,7 +35,7 @@ const TabButton: React.FC<TabButtonInterface> = ({
     <Pressable onPress={onPress}>
       <View className="flex-col justify-start items-start gap-2 mr-6">
         <Animated.View
-          className={cn("h-[5px]", active ? "bg-red-600" : "bg-black")}
+          className={cn("h-[4px]", active ? "bg-red-600" : "bg-black")}
           style={{ ...style, zIndex: 100 }}
         />
 

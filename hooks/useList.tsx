@@ -14,11 +14,11 @@ const useList = (Genre?: number, Series?: boolean) => {
     if (Series) {
       return `https://api.themoviedb.org/3/discover/tv?api_key=${
         process.env.EXPO_PUBLIC_TMDB_API_KEY
-      }&query=netflix&with_genres=${Genre}&page=${pageIndex + 1}`;
+      }&query=netflix&include_video=true&with_genres=${Genre}&page=${pageIndex + 1}&language=en-US&with_networks=213`;
     } else {
       return `https://api.themoviedb.org/3/discover/movie?api_key=${
         process.env.EXPO_PUBLIC_TMDB_API_KEY
-      }&with_genres=${Genre}&page=${pageIndex + 1}`;
+      }&with_genres=${Genre}&include_video=true&with_watch_providers=netflix&page=${pageIndex + 1}&language=en-US`;
     }
   };
 

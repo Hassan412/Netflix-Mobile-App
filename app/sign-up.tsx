@@ -70,7 +70,11 @@ const SignUp = () => {
         gap: 24,
         marginTop: 64
       }}>
-        <Text className="text-3xl font-medium" >
+        <Text  style={{
+          fontSize: 30,
+          lineHeight: 36,
+          fontWeight: "500"
+        }}>
           Unlimited films, TV programmes & more
         </Text>
         <Text className="text-xl text-neutral-800">

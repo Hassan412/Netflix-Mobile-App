@@ -39,11 +39,11 @@ export default function RootLayout() {
           loop={false}
           ref={animation}
           style={{
-            width: 300,
-            height: 300,
+            width: 500,
+            height: 500,
             backgroundColor: "#000",
           }}
-          source={require("@/assets/svgs/Netflix-animation.json")}
+          source={require("@/assets/svgs/Netflix-animation-2.json")}
         />
       </View>
     );

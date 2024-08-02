@@ -1,4 +1,7 @@
-import { ScrollView, View } from "react-native";
+import {  View } from "react-native";
+import {
+  ScrollView,
+} from "react-native-gesture-handler";
 import React, { memo } from "react";
 import MovieCard from "./movie-card";
 import { MoviesData } from "@/types";

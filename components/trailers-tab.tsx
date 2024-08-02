@@ -1,8 +1,9 @@
 import { Dimensions, Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import React, { memo } from "react";
 import YoutubePlayer from "react-native-youtube-iframe";
-import { FlatList } from "react-native";
 import { MovieVideo } from "@/types";
+import _ from "lodash";
 
 interface TrailersTabInterface {
   data?: MovieVideo[];
@@ -10,15 +11,18 @@ interface TrailersTabInterface {
 
 const TrailersTab: React.FC<TrailersTabInterface> = ({ data }) => {
   const { height } = Dimensions.get("window");
+  if (_.isEmpty(data)) {
+    return null;
+  }
   return (
     <FlatList
-      data={data}
       nestedScrollEnabled
+      data={data}
       renderItem={({ item, index }) => (
-        <View style={{ marginVertical: 8 }} key={index}>
+        <View style={{ marginVertical: 8, width: "100%" }} key={index}>
           <YoutubePlayer
             height={height / 3.5}
-            videoId={item.key}
+            videoId={item?.key}
             initialPlayerParams={{ modestbranding: true }}
             play={false}
           />

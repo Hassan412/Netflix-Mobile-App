@@ -1,8 +1,14 @@
 import { Episode } from "@/types";
 import { Image } from "expo-image";
 import _ from "lodash";
-import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface EpisodeItemProps {
   episode: Episode;
@@ -11,11 +17,22 @@ interface EpisodeItemProps {
 
 const EpisodeItem = (props: EpisodeItemProps) => {
   const { episode, onPress } = props;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [textLines, setTextLines] = useState<number | undefined>(undefined);
+  const handleTextLayout = useCallback((event: any) => {
+    const { lines } = event.nativeEvent;
+    setTextLines(lines.length);
+  }, []);
   if (_.isEmpty(episode)) {
     return null;
   }
   return (
     <Pressable style={{ margin: 10 }} onPress={onPress}>
+      <View style={{
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "flex-start"
+      }}>
       <View style={styles.row}>
         <Image
           style={styles.image}
@@ -34,7 +51,28 @@ const EpisodeItem = (props: EpisodeItemProps) => {
         {/* <AntDesign name="download" size={24} className="mr-8" color={"white"} /> */}
       </View>
 
-      <Text style={styles.overview}>{episode.overview}</Text>
+      <Text
+        style={styles.overview}
+        numberOfLines={isExpanded ? undefined : 3}
+        onTextLayout={handleTextLayout}
+      >
+        {episode.overview}
+      </Text>
+      {textLines && textLines > 3 && (
+        <TouchableOpacity onPress={() => setIsExpanded(!isExpanded)}>
+          <Text
+            style={{
+              color: "darkgray",
+              marginTop: 8,
+              textDecorationLine: "underline",
+              textDecorationColor: "darkgray",
+            }}
+          >
+            {isExpanded ? "Read Less" : "Read More"}
+          </Text>
+        </TouchableOpacity>
+      )}
+      </View>
     </Pressable>
   );
 };
@@ -65,7 +103,7 @@ const styles = StyleSheet.create({
   duration: {
     color: "darkgrey",
     fontSize: 10,
-    marginTop: 5
+    marginTop: 5,
   },
   overview: {
     fontWeight: "300",

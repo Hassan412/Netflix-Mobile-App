@@ -2,6 +2,7 @@ import {
   Alert,
   Image,
   ImageSourcePropType,
+  Pressable,
   Text,
   TouchableHighlight,
   View,
@@ -16,6 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import useSession from "@/hooks/useSession";
+import * as ImagePicker from "expo-image-picker";
 const AddProfile = () => {
   const [image, setImage] = useState("pfp1");
   const [visible, setVisible] = React.useState(false);
@@ -59,6 +61,20 @@ const AddProfile = () => {
     },
     [image, router, session]
   );
+  const pickImage = useCallback(async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }, []);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -87,7 +103,16 @@ const AddProfile = () => {
             borderColor: "white",
           }}
         >
-          <View className="flex-row justify-center rounded-sm flex-wrap items-center gap-4">
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              borderRadius: 2,
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: 16,
+            }}
+          >
             {Object.entries(images).map(([key, image], index) => (
               <TouchableHighlight key={index} onPress={() => setImage(key)}>
                 <Image
@@ -99,12 +124,27 @@ const AddProfile = () => {
                 />
               </TouchableHighlight>
             ))}
+            <Pressable onPress={pickImage}>
+              <View
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 6,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderColor: "white",
+                  borderWidth: 1,
+                }}
+              >
+                <AntDesign name="plus" size={40} color="white" />
+              </View>
+            </Pressable>
           </View>
         </Modal>
       </Portal>
       <View className="relative">
         <Image
-          source={images[image as keyof typeof images]}
+          source={images[image as keyof typeof images] || {uri: image}}
           style={{
             width: 100,
             height: 100,
@@ -160,4 +200,3 @@ const AddProfile = () => {
 };
 
 export default AddProfile;
-

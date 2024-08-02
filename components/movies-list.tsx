@@ -1,5 +1,12 @@
 import React, { memo, useCallback } from "react";
-import { Text, View, Dimensions, StyleSheet, FlatList } from "react-native";
+import {
+  Text,
+  View,
+  Dimensions,
+  StyleSheet,
+  FlatList,
+  DimensionValue,
+} from "react-native";
 import { MoviesData } from "@/types";
 import MovieCard from "./movie-card";
 import _ from "lodash";
@@ -11,6 +18,7 @@ interface MoviesListInterface {
   heading?: string;
   varient?: "Series" | "Movies";
   genreId?: number;
+  height?: DimensionValue;
 }
 
 const { width } = Dimensions.get("window");
@@ -20,6 +28,7 @@ const MoviesList: React.FC<MoviesListInterface> = ({
   varient,
   data,
   genreId,
+  height,
 }) => {
   const {
     data: movies,
@@ -41,6 +50,7 @@ const MoviesList: React.FC<MoviesListInterface> = ({
       className="flex-col w-full justify-center"
       style={{
         flex: 1,
+        marginLeft: "4%",
       }}
     >
       {heading && (
@@ -55,11 +65,14 @@ const MoviesList: React.FC<MoviesListInterface> = ({
             <MovieCard
               data={item}
               varient={varient}
-              className={`h-[170px]`}
-              width={115}
+              height={"100%"}
+              width={height ? 150 : 115}
               key={index}
             />
           )}
+          style={{
+            height: height ? height : 170,
+          }}
           keyExtractor={(item) => item.id.toString()}
           removeClippedSubviews
           horizontal

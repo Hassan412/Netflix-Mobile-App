@@ -150,3 +150,14 @@ export interface CollectionData {
   backdrop_path: string | null;
   parts: MoviesData[];
 }
+
+
+export interface MediaItem {
+  t: string;
+  s: string;
+  d: 'm' | 's';
+  e: number;
+  n: number;
+  q: string; 
+  y: number; 
+}

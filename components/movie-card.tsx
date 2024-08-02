@@ -4,37 +4,70 @@ import { MoviesData } from "@/types";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { cn } from "@/lib/utils";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 interface MovieCardInterface {
   data: MoviesData;
   className?: string;
   varient?: "Series" | "Movies";
   width?: DimensionValue;
+  height?: DimensionValue;
+  // routervarient: "push" | "replace";
 }
 
 const MovieCard: React.FC<MovieCardInterface> = ({
   data,
   className,
   varient,
-  width
+  width,
+  height,
+  // routervarient,
 }) => {
   const router = useRouter();
+  const scaleImage = useSharedValue(1);
   const [isLoading, setIsLoading] = useState(true);
 
   const onPress = useCallback(() => {
-    router.push(
-      `/(app)/${data.id}${varient === "Series" || data.name ? "?Series=1" : ""}`
-    );
+    const url = `/(app)/${data.id}${
+      varient === "Series" || data.name ? "?Series=1" : ""
+    }`;
+    router.push(url);
+    // if (routervarient === "push") {
+    //   router.push(url);
+    // } else if (routervarient === "replace") {
+    //   router.replace(url);
+    // }
   }, [data.id, router, varient, data.name]);
+
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [
+      {
+        scale: withSpring(scaleImage.value),
+      },
+    ],
+    backgroundColor: "#111",
+  }));
   return (
-    <View style={{
-      width: width,
-      height: 170
-    }} className={cn("rounded-md relative bg-neutral-900", className)}>
-      <Pressable onPress={onPress}>
-        <View style={{ height: "100%", width: "100%" }}>
+    <View
+      style={{
+        width: width,
+        height: height ? height : 170,
+
+      }}
+      className={cn("rounded-sm relative", className)}
+    >
+      <Pressable
+        onPress={onPress}
+        onPressIn={() => (scaleImage.value = 0.95)}
+        onPressOut={() => (scaleImage.value = 1)}
+      >
+        <Animated.View style={animatedStyles}>
           {isLoading && (
-            <Text className=" text-white absolute top-[50%] text-center text-sm right-0 left-0">
+            <Text className=" text-white absolute top-[40%] text-center text-sm right-0 left-0">
               {data.title}
             </Text>
           )}
@@ -42,7 +75,7 @@ const MovieCard: React.FC<MovieCardInterface> = ({
             style={{
               height: "100%",
               width: "100%",
-              borderRadius: 5,
+              borderRadius: 2,
             }}
             alt="movie-poster"
             transition={500}
@@ -52,7 +85,7 @@ const MovieCard: React.FC<MovieCardInterface> = ({
             onLoadStart={() => setIsLoading(true)}
             onLoad={() => setIsLoading(false)}
           />
-        </View>
+        </Animated.View>
       </Pressable>
     </View>
   );

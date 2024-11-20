@@ -59,7 +59,7 @@ const Home = () => {
           />
           <Image
             source={require("@/assets/images/Rectangle.png")}
-            contentFit="fill"
+          
             style={{
               width: "100%",
 

@@ -74,7 +74,6 @@ const MoviesList: React.FC<MoviesListInterface> = ({
             height: height ? height : 170,
           }}
           keyExtractor={(item) => item.id.toString()}
-          removeClippedSubviews
           horizontal
           showsHorizontalScrollIndicator={false}
           ListFooterComponent={

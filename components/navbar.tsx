@@ -3,12 +3,13 @@ import React from "react";
 import { Menu } from "react-native-paper";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 interface NavbarInterface {
   setIsOpen: (isOpen: boolean) => void;
 }
 const Navbar: React.FC<NavbarInterface> = ({ setIsOpen }) => {
   const [visible, setVisible] = React.useState(false);
-
+  const {top} = useSafeAreaInsets()
   const openMenu = () => setVisible(true);
 
   const closeMenu = () => setVisible(false);
@@ -42,6 +43,7 @@ const Navbar: React.FC<NavbarInterface> = ({ setIsOpen }) => {
           style={{
             right: 0,
             left: "40%",
+            top:top
           }}
           anchor={
             <SimpleLineIcons

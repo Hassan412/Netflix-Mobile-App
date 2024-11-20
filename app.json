@@ -6,11 +6,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/Netflix-icon.png",
     "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "resizeMode": "cover",
-      "backgroundColor": "#000000"
-    },
+    "newArchEnabled": true,
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
@@ -33,6 +30,18 @@
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#000000",
+          "image": "./assets/images/Netflix-icon.png",
+          "dark": {
+            "image": "./assets/images/Netflix-icon.png",
+            "backgroundColor": "#000000"
+          },
+          "imageWidth": 200
         }
       ]
     ],

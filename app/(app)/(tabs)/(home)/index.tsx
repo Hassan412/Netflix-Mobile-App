@@ -1,12 +1,10 @@
 import {
   Dimensions,
-  FlatList,
   SafeAreaView,
   Text,
-  TouchableHighlight,
   View,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useProfile from "@/hooks/useProfile";
 import { LinearGradient } from "expo-linear-gradient";
 import Billboard from "@/components/billboard";
@@ -16,32 +14,41 @@ import MoviesList from "@/components/movies-list";
 import useTrendingMovies from "@/hooks/useTrendingMovies";
 import useFavorites from "@/hooks/useFavorites";
 import { genresList } from "@/lib/genre-list";
-import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import _ from "lodash";
 import usePopulerMovies from "@/hooks/usePopulerMovies";
 import { Image } from "expo-image";
+import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
+import { useNavigation } from "expo-router";
 import HomeHeader from "@/components/home-header";
-import { MaterialIcons } from "@expo/vector-icons";
-import images from "@/constants/images";
-import { useRouter } from "expo-router";
-import { useSharedValue } from "react-native-reanimated";
+
 const HomeScreen = () => {
   const [size, setSize] = useState(0);
-  const router = useRouter();
-  const { height } = Dimensions.get("window");
+  const { height, width } = Dimensions.get("window");
   const { favoriteIds } = useProfile();
-  const { width } = Dimensions.get("window");
   const { data: NowPlaying }: { data: MoviesData[] } = useNowPlaying();
   const { data: Trending }: { data: MoviesData[] } = useTrendingMovies();
   const { data: MyList } = useFavorites(favoriteIds || []);
   const { data: Populer } = usePopulerMovies();
-  // const [scrollY, setScrollY] = useState(0);
-const scrollY = useSharedValue(0)
+  const scrollY = useSharedValue(0);
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <HomeHeader scrollY={scrollY} />
+      ),
+    })
+  }, [navigation, scrollY])
 
   const onReachEnd = useCallback(() => {
     setSize((prevSize) => prevSize + 1);
   }, [setSize]);
 
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    }
+  });
   const renderItem = useCallback(
     ({ item, index }: { item: any; index: number }) => (
       <MoviesList
@@ -53,8 +60,6 @@ const scrollY = useSharedValue(0)
     []
   );
 
-  
-
   const displayedGenres = _.slice(genresList, 0, size);
 
   return (
@@ -64,18 +69,15 @@ const scrollY = useSharedValue(0)
         backgroundColor: "black",
       }}
     >
-      <HomeHeader scrollY={scrollY} />
-
-      <FlatList
+      <Animated.FlatList
         data={displayedGenres}
         style={{
           width,
         }}
-        // onMomentumScrollBegin={(e) => scrollY.value = (e.nativeEvent.contentOffset.y)}
+        onScroll={scrollHandler}
         showsVerticalScrollIndicator={false}
-        // initialNumToRender={0}
+        initialNumToRender={1}
         onEndReachedThreshold={0.5}
-        // maxToRenderPerBatch={1}
         ListHeaderComponent={
           <View
             style={{
@@ -182,8 +184,7 @@ const scrollY = useSharedValue(0)
             <MoviesList heading="My List" data={MyList || []} />
           </View>
         }
-        keyExtractor={(item, index) => index.toString()}
-        // removeClippedSubviews
+        keyExtractor={(item, index) => item.name.toString()}
         renderItem={renderItem}
         onEndReached={onReachEnd}
       />

@@ -18,7 +18,7 @@ export default function AuthLayout() {
   }, [navigation]);
 
   if (!session?.access_token) {
-    return <Redirect href={"/"} />;
+    return <Redirect href={".."} />;
   }
   if (!session) {
     return <ActivityIndicator animating={true} color={MD2Colors.red500} />;
@@ -58,21 +58,22 @@ export default function AuthLayout() {
         options={{
           headerShown: false,
           presentation: "modal",
-          gestureEnabled:true,
+          gestureEnabled: true,
+          gestureResponseDistance: 500
         }}
       />
       <JsStack.Screen name="(tabs)" options={{
-        headerShown:false
-      }}/>
+        headerShown: false
+      }} />
       <JsStack.Screen name="watch" options={{
-          // headerStyle: {
-          //   backgroundColor: "black",
-          // },
-          // headerTitle: "Watch",
-          // headerTintColor: "white",
-          headerShown:false,
-          presentation: "transparentModal"
-      }}/>
+        // headerStyle: {
+        //   backgroundColor: "black",
+        // },
+        // headerTitle: "Watch",
+        // headerTintColor: "white",
+        headerShown: false,
+        presentation: "transparentModal"
+      }} />
       <JsStack.Screen
         name="add-profile"
         options={{

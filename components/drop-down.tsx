@@ -20,6 +20,7 @@ const DropDown: React.FC<DropDownInterface> = ({
       onSelect={(selectedItem: Season, index) => {
         setValue(index + 1);
       }}
+      statusBarTranslucent
       defaultValueByIndex={0}
       renderButton={(selectedItem, isOpened) => {
         return (

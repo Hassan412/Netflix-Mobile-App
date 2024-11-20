@@ -1,68 +1,57 @@
 import { Text, TouchableHighlight, View } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import images from "@/constants/images";
 import useProfile from "@/hooks/useProfile";
-import { BlurView } from "expo-blur";
 import { Link, router } from "expo-router";
 import Animated, {
   SharedValue,
   useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
+  interpolate,
+  Extrapolate,
 } from "react-native-reanimated";
 
 interface HomeHeaderInterface {
-  scrollY: SharedValue;
+  scrollY: SharedValue<number>;
 }
+
 
 const HomeHeader: React.FC<HomeHeaderInterface> = ({ scrollY }) => {
   const { Profile } = useProfile();
-  const isFlatListVisible = useSharedValue(true);
 
-  const prevScrollY = useRef(scrollY);
-
-  useEffect(() => {
-    if (scrollY > prevScrollY.current) {
-      isFlatListVisible.value = false;
-    } else {
-      isFlatListVisible.value = true;
-    }
-    prevScrollY.current = scrollY;
-  }, [scrollY, isFlatListVisible]);
 
   const flatListStyle = useAnimatedStyle(() => {
     return {
-      height: isFlatListVisible.value
-        ? withDelay(1000, withTiming(35, { duration: 400 }))
-        : withDelay(1000, withTiming(0, { duration: 400 })),
-      opacity: isFlatListVisible.value
-        ? withDelay(1000, withTiming(1, { duration: 400 }))
-        : withDelay(1000, withTiming(0, { duration: 400 })),
-      marginTop: isFlatListVisible.value
-        ? withDelay(1000, withTiming(20, { duration: 400 }))
-        : withDelay(1000, withTiming(0, { duration: 400 })),
+      height: interpolate(
+        scrollY.value,
+        [0, 100],
+        [35, 0],
+        Extrapolate.CLAMP
+      ),
+      opacity: interpolate(
+        scrollY.value,
+        [0, 100],
+        [1, 0],
+        Extrapolate.CLAMP
+      ),
+      marginTop: interpolate(
+        scrollY.value,
+        [0, 100],
+        [20, 0],
+        Extrapolate.CLAMP
+      ),
     };
   });
+
   const Links = [
-    {
-      href: "",
-      label: "TV Shows",
-    },
-    {
-      href: "",
-      label: "Movies",
-    },
-    {
-      href: "",
-      label: "Categories",
-    },
+    { href: "", label: "TV Shows" },
+    { href: "", label: "Movies" },
+    { href: "", label: "Categories" },
   ];
+
   return (
-    <BlurView
-      tint="systemThickMaterialDark"
+    <View
       style={{
         width: "100%",
         flexDirection: "column",
@@ -71,40 +60,19 @@ const HomeHeader: React.FC<HomeHeaderInterface> = ({ scrollY }) => {
         paddingBottom: 20,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#111",
       }}
     >
-      <View
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 20,
-            color: "white",
-            fontWeight: 400,
-          }}
-        >
-          For{" "}
-          {(Profile?.username?.charAt(0)?.toUpperCase() || "") +
-            Profile?.username.slice(1)}
+      <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between" }}>
+        <Text style={{ fontSize: 20, color: "white", fontWeight: "400" }}>
+          For {Profile && Profile?.username?.charAt(0)?.toUpperCase() + Profile?.username.slice(1)}
         </Text>
-        <View className="mr-6 flex-row items-center gap-4">
+        <View style={{ marginRight: 24, flexDirection: "row", alignItems: "center", gap: 4 }}>
           <MaterialIcons name="cast-connected" size={30} color="white" />
           <TouchableHighlight onPress={() => router.push("/(app)/profiles")}>
             <Image
-              source={
-                images[Profile?.profilePicture!] || {
-                  uri: Profile?.profilePicture,
-                }
-              }
-              className="w-[40px] h-[40px] rounded-sm"
-              style={{
-                width: 35,
-                height: 35,
-              }}
+              source={images[Profile?.profilePicture!] || { uri: Profile?.profilePicture }}
+              style={{ width: 35, height: 35, borderRadius: 4 }}
             />
           </TouchableHighlight>
         </View>
@@ -132,7 +100,7 @@ const HomeHeader: React.FC<HomeHeaderInterface> = ({ scrollY }) => {
           </Link>
         )}
       />
-    </BlurView>
+    </View>
   );
 };
 

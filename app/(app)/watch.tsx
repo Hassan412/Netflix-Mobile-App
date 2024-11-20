@@ -137,19 +137,19 @@ const WatchScreen = () => {
           allowsFullscreenVideo
           source={{
             uri: Series
-              ? `https://vidsrc.to/embed/tv/${movieId}`
-              : `https://vidsrc.to/embed/movie/${movieId}`,
+              ? `https://vidsrc.net/embed/tv/${movieId}`
+              : `https://vidsrc.net/embed/movie/${movieId}`,
           }}
           // onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
           setSupportMultipleWindows={false}
-          // onShouldStartLoadWithRequest={(request) => {
-          //   // Only allow navigating within this website
-          //   return request.url.startsWith(
-          //     Series
-          //       ? `https://vidsrc.to/embed/tv/${movieId}`
-          //       : "https://vidsrc.to/embed/movie/${movieId}"
-          //   );
-          // }}
+          onShouldStartLoadWithRequest={(request) => {
+            // Only allow navigating within this website
+            return request.url.startsWith(
+              Series
+                ? `https://vidsrc.net/embed/tv/${movieId}`
+                : "https://vidsrc.net/embed/movie/${movieId}"
+            );
+          }}
           onLoadStart={() => setLoading(true)}
           onLoadEnd={() => setLoading(false)}
           onError={() => setLoading(false)}

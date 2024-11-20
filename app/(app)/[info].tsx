@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -9,8 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Entypo, AntDesign } from "@expo/vector-icons";
-import * as ScreenOrientation from "expo-screen-orientation";
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import YoutubePlayer from "react-native-youtube-iframe";
 import useMovieVideo from "@/hooks/useMovieVideo";
 import { format } from "date-fns";
@@ -37,8 +36,6 @@ import useTvSeason from "@/hooks/useTVSeasion";
 import TabButton from "@/components/tab-button";
 import DropDown from "@/components/drop-down";
 import EpisodesTab from "@/components/episodes-tab";
-// import axios from "axios";
-// import * as cheerio from "cheerio";
 
 interface PersonProps {
   id: number;
@@ -69,7 +66,6 @@ const InfoScreen = () => {
   );
   const { data: Season } = useTvSeason(info as string, season);
   const { height } = Dimensions.get("window");
-
 
   // useEffect(()=> {
   //   resetScreenOrientation();
@@ -208,12 +204,12 @@ const InfoScreen = () => {
       </View>
       <View
         style={{
-          height: 240,
+          height: 225,
           marginTop: 50,
         }}
       >
         <YoutubePlayer
-          height={240}
+          height={225}
           initialPlayerParams={{
             loop: true,
             modestbranding: true,
@@ -222,6 +218,7 @@ const InfoScreen = () => {
           webViewProps={{
             scrollEnabled: false,
             showsVerticalScrollIndicator: false,
+            
             // overScrollMode:"never"
           }}
           play={playing}
@@ -416,76 +413,6 @@ const InfoScreen = () => {
         }
         renderItem={null}
       />
-      {/* <TabView
-          navigationState={{
-            index,
-            routes: routes,
-          }}
-          style={{
-            height: height / 1.8,
-          }}
-          swipeEnabled={false}
-          lazy
-          animationEnabled={false}
-          renderScene={({ route }) => {
-            switch (route?.key || "") {
-              case "Episode":
-                return (
-                  <EpisodesTab
-                    season={season}
-                    data={data}
-                    setSeason={setSeason}
-                    setEpisode={setEpisode}
-                  />
-                );
-              case "Recomendations":
-                return <RecommendationsTab data={Recommendations} />;
-              case "Collection":
-                return <ColllectionTab data={collection} />;
-              case "Trailers":
-                return <TrailersTab data={MovieVideo} />;
-              default:
-                return null;
-            }
-          }}
-          onIndexChange={setIndex}
-          initialLayout={{ width: Dimensions.get("window").width }}
-          
-          renderTabBar={(props) => (
-            <TabBar
-              {...props}
-              scrollEnabled
-              tabStyle={{
-                padding: 0,
-                width: "auto",
-                marginHorizontal: 5,
-              }}
-             
-              // indicatorStyle={{ backgroundColor: "red", top: 0, height: 4}}
-              indicatorStyle={{
-                backgroundColor: "red",
-                height: 4,
-                // left: 20 / 2,
-                top: 0,
-              }}
-              // renderIndicator={(indicatorProps) => {
-              //   const width = indicatorProps.getTabWidth(index) - 20;
-              //   return <TabBarIndicator {...indicatorProps} width={width} />;
-              // }}
-              style={{ backgroundColor: "black" }}
-              renderLabel={({ route, focused, color }) => (
-                <Text
-                  style={{
-                    color: focused ? "white" : "darkgray",
-                    margin: 8,
-                  }}
-                >
-                  {route.label}
-                </Text>
-              )}
-            />
-          )}
-        /> */}
     </SafeAreaView>
   );
 };

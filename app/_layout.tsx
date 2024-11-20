@@ -7,9 +7,11 @@ import "react-native-reanimated";
 import { PaperProvider } from "react-native-paper";
 import { Image, View } from "react-native";
 import LottieView from "lottie-react-native";
-
+import * as NavigationBar from 'expo-navigation-bar';
 SplashScreen.preventAutoHideAsync();
 
+
+NavigationBar.setBackgroundColorAsync("black")
 export default function RootLayout() {
   const animation = useRef<LottieView>(null);
   const [splashAnimationFinished, setSplashAnimationFinished] =

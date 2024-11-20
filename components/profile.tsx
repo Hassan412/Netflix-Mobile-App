@@ -43,7 +43,7 @@ const ProfileItem: React.FC<ProfileItemInterface> = ({ name, image, id }) => {
           });
         } else {
           router.replace({
-            pathname: `/(tabs)`,
+            pathname: `/(tabs)/(home)`,
             params: {
               id: id,
             },

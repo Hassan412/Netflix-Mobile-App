@@ -1,5 +1,5 @@
 import useProfile from "@/hooks/useProfile";
-import { Tabs, useLocalSearchParams } from "expo-router";
+import { Tabs, useGlobalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { Alert, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -8,14 +8,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { supabase } from "@/lib/supabase";
 import React from "react";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
-import { Image } from "expo-image";
-import images from "@/constants/images";
 import _ from "lodash";
-
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function TabLayout() {
-  const { setProfile,Profile } = useProfile();
-  const { id } = useLocalSearchParams();
+  const { setProfile, Profile } = useProfile();
+  const { id } = useGlobalSearchParams();
+
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync("#111")
+  }, [])
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -54,13 +56,13 @@ export default function TabLayout() {
               borderRadius: 5
             }}
           /> */}
-       
-            <ActivityIndicator
-              size={80}
-              animating={true}
-              color={MD2Colors.red500}
-            />
-    
+
+          <ActivityIndicator
+            size={80}
+            animating={true}
+            color={MD2Colors.red500}
+          />
+
         </View>
       </View>
     );
@@ -83,47 +85,21 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="home-filled" size={24} color={color} />
           ),
-          headerShown: false,
 
           tabBarStyle: {
             borderTopWidth: 0,
             backgroundColor: "#111",
+            height:60,
+            paddingTop:10
           },
-          // headerRight: (props) => (
-          //   <View className="mr-6 flex-row items-center gap-4">
-          //     <MaterialIcons name="cast-connected" size={30} color="white" />
-          //     <TouchableHighlight
-          //       onPress={() => router.push("/(app)/profiles")}
-          //     >
-          //       <Image
-          //         source={images[Profile?.profilePicture!]}
-          //         className="w-[40px] h-[40px] rounded-sm"
-          //         style={{
-          //           width: 35,
-          //           height: 35,
-          //         }}
-          //       />
-          //     </TouchableHighlight>
-          //   </View>
-          // ),
-          // headerTitle: () => (
-          //   <Text
-          //     style={{
-          //       fontSize: 20,
-          //       color: "white",
-          //     }}
-          //   >
-          //     For{" "}
-          //     {Profile?.username.charAt(0).toUpperCase() +
-          //       Profile?.username.slice(1)}
-          //   </Text>
-          // ),
+          headerShown: false
+
         }}
       />
       <Tabs.Screen
